@@ -1,4 +1,4 @@
-import React, {MouseEventHandler, useState} from "react";
+import React, {useState} from "react";
 
 const ChatForm: React.FC = () => {
   const [isFocused, setFocus] = useState(false);
@@ -48,12 +48,12 @@ const ChatForm: React.FC = () => {
       <input
         type="text"
         placeholder="?"
-        className={`w-full text-center outline-0 py-2 px-4 bg-white border-b-2 text-lg leading-none ${isFocused ? 'placeholder:text-transparent' : 'placeholder:text-gray'}`}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         onKeyDown={handleKeyDown}
         onChange={handleInputChange}
         value={inputValue}
+        className={`w-full text-center outline-0 py-2 px-4 bg-white border-b-2 text-lg leading-none ${isFocused ? 'placeholder:text-transparent' : 'placeholder:text-gray'}`}
       />
       {!!inputValue && <button className="rounded-md mt-8 px-4" onClick={handleClick}>Submit</button>}
     </form>
