@@ -1,11 +1,11 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import Navigation from "@/components/navigation";
+// import Navigation from "@/components/navigation";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
-      <Navigation />
+      {/*<Navigation />*/}
       <Component {...pageProps} />
     </>
   )

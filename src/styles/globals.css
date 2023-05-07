@@ -110,3 +110,14 @@ a {
 .fill-white {
   fill: white;
 }
+
+.textarea {
+  caret-color: var(--foreground-rgb);
+  animation: 1s blink-animation steps(2, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}

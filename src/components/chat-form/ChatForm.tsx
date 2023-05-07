@@ -1,8 +1,19 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
-const ChatForm: React.FC = () => {
+interface ChatFormProps {
+  classNames: string;
+}
+
+const ChatForm: React.FC<ChatFormProps> = ({classNames}) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isFocused, setFocus] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, []);
 
   const handleInputFocus = () => {
     setFocus(true);
@@ -12,8 +23,12 @@ const ChatForm: React.FC = () => {
     setFocus(false);
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(event.target.value);
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -29,7 +44,7 @@ const ChatForm: React.FC = () => {
     }
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
       if (inputValue.length > 0) {
@@ -38,22 +53,22 @@ const ChatForm: React.FC = () => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement> | React.KeyboardEvent<HTMLInputElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
     event.preventDefault();
     console.log("Form submitted", event);
   };
 
   return (
-    <form className="relative flex flex-col items-center justify-center w-full max-w-[500px] xs:px-12 mt-12">
-      <input
-        type="text"
-        placeholder="?"
+    <form className={`relative flex flex-col items-center justify-center ${classNames}`}>
+      <textarea
+        ref={textareaRef}
+        placeholder="Type here..."
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         onKeyDown={handleKeyDown}
         onChange={handleInputChange}
         value={inputValue}
-        className={`w-full text-center outline-0 py-2 px-4 bg-white border-b-2 text-lg leading-none ${isFocused ? 'placeholder:text-transparent' : 'placeholder:text-gray'}`}
+        className={`touch-none resize-none w-full text-center outline-0 py-2 px-4 bg-transparent text-lg leading-none leading-relaxed ${isFocused ? 'placeholder:text-transparent' : 'placeholder:text-gray'}`}
       />
       {!!inputValue && <button className="rounded-md mt-8 px-4" onClick={handleClick}>Submit</button>}
     </form>
