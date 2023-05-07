@@ -3,14 +3,14 @@ import React from "react";
 import {GA_TRACKING_ID} from "@/utils/analytics";
 import Script from "next/script";
 
-interface PageContainerProps {
+interface LayoutProps {
   children: React.ReactNode;
   title: string;
   description?: string;
   classNames?: string;
 }
 
-const PageContainer: React.FC<PageContainerProps> = ({children, title, description = "Portal | Nenad Bursać | Frontend Developer", classNames = ""}) => {
+const Layout: React.FC<LayoutProps> = ({children, title, description = "Portal | Nenad Bursać | Frontend Developer", classNames = ""}) => {
   return (
     <>
       <Head>
@@ -46,4 +46,4 @@ const PageContainer: React.FC<PageContainerProps> = ({children, title, descripti
   )
 }
 
-export default PageContainer;
+export default Layout;

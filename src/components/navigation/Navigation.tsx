@@ -13,8 +13,7 @@ interface NavigationProps {
 }
 
 const links: NavLink[] = [
-  { href: '/', label: 'Home' },
-  { href: '/studio', label: 'Studio' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 const Nav: React.FC<NavigationProps> = ({links, classNames = "", toggleFn}) => {
