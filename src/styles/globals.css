@@ -78,6 +78,9 @@ body {
   /*background-color: radiant-black;*/
   font-size: 16px;
   line-height: 1.5;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 body {
@@ -111,13 +114,21 @@ a {
   fill: white;
 }
 
-.textarea {
-  caret-color: var(--foreground-rgb);
-  animation: 1s blink-animation steps(2, start) infinite;
-}
-
-@keyframes blink-animation {
-  to {
-    visibility: hidden;
+@keyframes blink {
+  0% {
+    caret-color: var(--foreground-rgb);
+  }
+  100% {
+    caret-color: transparent;
   }
 }
+
+.blink-caret {
+  animation: blink 1s ease-in-out infinite;
+}
+
+/*main {*/
+/*  height: calc(100vh - 64px);*/
+/*  overflow: hidden;*/
+/*  overflow-y: auto;*/
+/*}*/

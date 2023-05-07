@@ -12,7 +12,7 @@ const TypingText: React.FC<TypingTextProps> = ({text, delay = 100, classNames}) 
   useEffect(() => {
     if (currentIndex < text.length) {
       const timeoutId = setTimeout(() => {
-        setDisplayText((prevText) => prevText + text.charAt(currentIndex));
+        setDisplayText(text.slice(0, currentIndex + 1));
         setCurrentIndex(currentIndex + 1);
       }, delay);
       return () => clearTimeout(timeoutId);
