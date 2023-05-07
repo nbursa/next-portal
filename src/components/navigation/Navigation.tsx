@@ -1,36 +1,6 @@
-import Link from 'next/link';
 import React, { useState } from 'react';
-
-type NavLink = {
-  href: string;
-  label: string;
-}
-
-interface NavigationProps {
-  links: NavLink[];
-  classNames?: string;
-  toggleFn: (value: boolean) => void;
-}
-
-const links: NavLink[] = [
-  { href: '/contact', label: 'Contact' },
-]
-
-const Nav: React.FC<NavigationProps> = ({links, classNames = "", toggleFn}) => {
-  const handleClick = () => {
-    toggleFn(false);
-  };
-
-  return (
-    <div className={classNames}>
-      {links.map(({href, label}, index) => (
-        <Link key={index} href={href} onClick={handleClick} className="text-gray-300 hover:text-white hover:underline px-3 py-2 rounded-md text-sm font-medium">
-          {label}
-        </Link>
-      ))}
-    </div>
-  );
-};
+import {NavLinks} from "./components";
+import {links} from "./links";
 
 const Navigation: React.FC = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -41,9 +11,9 @@ const Navigation: React.FC = () => {
 
   return (
     <nav className="z-40 relative bg-gray-800 px-4 py-3 flex justify-between items-center">
-      <Link href="/" className="z-40 text-4xl font-bold">
-        NB
-      </Link>
+      {/*<Link href="/" className="z-40 text-4xl font-bold">*/}
+      {/*  NB*/}
+      {/*</Link>*/}
       <div className="mobile-nav sm:hidden">
         <button
           type="button"
@@ -59,13 +29,13 @@ const Navigation: React.FC = () => {
             isNavOpen ? 'top-0 left-0 right-0 bottom-0' : 'top-3 left-full right-4 bottom-full'
           }`}
         >
-          <Nav links={links} classNames="flex flex-grow-1 flex-col justify-center items-center w-full h-full" toggleFn={setIsNavOpen} />
+          <NavLinks links={links} classNames="flex flex-grow-1 flex-col justify-center items-center w-full h-full" toggleFn={setIsNavOpen} />
         </div>
       </div>
       <div
-        className="hidden sm:block sm:ml-6"
+        className="hidden sm:block mr-6"
       >
-        <Nav links={links} toggleFn={setIsNavOpen} />
+        <NavLinks links={links} toggleFn={setIsNavOpen} />
       </div>
     </nav>
   );
