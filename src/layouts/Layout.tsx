@@ -17,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({children, title, description = "Portal |
         <title>{`Portal | ${title || "Nenad Bursać"}`}</title>
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/icons/favicon.png" />
       </Head>
         {GA_TRACKING_ID && (
           <>
