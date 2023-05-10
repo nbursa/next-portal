@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "server": "NODE_ENV=development node server.js",
-    "server:prod": "NODE_ENV=production node server.js"
+    "server:prod": "NODE_ENV=production node server.js",
+    "build:prod": "NODE_ENV=production next build"
   },
   "dependencies": {
     "@types/node": "20.1.0",
