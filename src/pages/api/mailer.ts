@@ -24,7 +24,7 @@ const sendEmail = async ({name, email, message}: SendEmailProps): Promise<boolea
 
   const formBody = `
   <div style="font-family: sans-serif; font-size: 16px;">
-    <h1 style="text-align: center;">Contact Form Submission</h1>
+    <h2 style="text-align: center;">Contact Form - nenadbursac.com</h2>
     <p><strong>Name:</strong> ${name}</p>
     <p><strong>Email:</strong> ${email}</p>
     <p><strong>Message:</strong> ${message}</p>
