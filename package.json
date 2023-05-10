@@ -31,6 +31,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@types/nodemailer": "^6.4.7"
+    "@types/nodemailer": "^6.4.7",
+    "mini-css-extract-plugin": "^2.7.5"
   }
 }
