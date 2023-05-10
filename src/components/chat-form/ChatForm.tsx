@@ -37,7 +37,7 @@ const ChatForm: React.FC<ChatFormProps> = ({classNames, conversation, setConvers
       const response = await fetch('/api/mailer', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email})
+        body: JSON.stringify({name: "bot", email, message: conversation}),
       });
       const data = await response.json();
       return true;
