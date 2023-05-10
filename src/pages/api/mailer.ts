@@ -1,13 +1,19 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type {NextApiRequest, NextApiResponse} from 'next';
 import nodemailer from 'nodemailer';
 
 type Data = {
   success: boolean;
 };
 
-const sendEmail = async (to: string): Promise<boolean> => {
+interface SendEmailProps {
+  name: string;
+  email: string;
+  message: string;
+}
+
+const sendEmail = async ({name, email, message}: SendEmailProps): Promise<boolean> => {
   const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+    host: process.env.EMAIL_HOST,
     port: 465,
     secure: true,
     auth: {
@@ -16,16 +22,26 @@ const sendEmail = async (to: string): Promise<boolean> => {
     },
   });
 
+  const formBody = `
+  <div style="font-family: sans-serif; font-size: 16px;">
+    <h1 style="text-align: center;">Contact Form Submission</h1>
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Message:</strong> ${message}</p>
+  </div>
+  `;
+
   const mailOptions = {
     from: process.env.EMAIL_USERNAME,
-    to: to,
-    subject: 'Test Email',
-    text: 'This is a test email.',
+    to: process.env.EMAIL_USERNAME,
+    subject: `Contact Form Submission from ${name}`,
+    text: message,
+    html: formBody,
   };
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Email sent to ${to}: ${info.response}`);
+    console.log(`Email sent to ${process.env.EMAIL_USERNAME}: ${info.response}`);
     return true;
   } catch (error) {
     console.error(error);
@@ -38,10 +54,9 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   if (req.method === 'POST') {
-    const { to } = req.body;
-    const emailSent = await sendEmail(to);
-    res.status(200).json({ success: emailSent });
+    const emailSent = await sendEmail(req.body as SendEmailProps);
+    res.status(200).json({success: emailSent});
   } else {
-    res.status(405).json({ success: false });
+    res.status(405).json({success: false});
   }
 }

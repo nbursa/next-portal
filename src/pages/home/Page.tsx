@@ -19,7 +19,6 @@ const HomePage = () => {
   useEffect(() => {
     if (containerRef.current) {
       setTypingTextHeight(containerRef.current.offsetHeight);
-      console.log("containerRef.current.offsetHeight: ", containerRef.current.offsetHeight);
     }
   }, [conversation, containerRef.current?.offsetHeight]);
 

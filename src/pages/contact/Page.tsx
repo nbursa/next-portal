@@ -7,6 +7,11 @@ type FormData = {
   message: string;
 };
 
+const validateEmail = (email: string) => {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+};
+
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -20,6 +25,9 @@ const ContactPage: React.FC = () => {
   });
   const [isValid, setIsValid] = useState<boolean>(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [emailStatus, setEmailStatus] = useState<'success' | 'failed' | null>(null);
+  const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
 
   const handleInputFocus = (field: keyof typeof focusState) => {
     setFocusState((prevState) => ({...prevState, [field]: true}));
@@ -39,18 +47,75 @@ const ContactPage: React.FC = () => {
     const {name, value} = e.target;
     setFormData((prevFormData) => ({...prevFormData, [name]: value}));
 
-    if (formData.name.trim() && formData.email.trim() && formData.message.trim()) {
+    let currentErrors = {...errors};
+
+    if (name === 'name') {
+      if (value.trim().length < 2) {
+        currentErrors.name = 'Name must be at least 2 characters.';
+      } else {
+        delete currentErrors.name;
+      }
+    }
+
+    if (name === 'email') {
+      if (!validateEmail(value)) {
+        currentErrors.email = 'Invalid email format.';
+      } else {
+        delete currentErrors.email;
+      }
+    }
+
+    if (name === 'message') {
+      if (!value.trim()) {
+        currentErrors.message = 'Message cannot be empty.';
+      } else {
+        delete currentErrors.message;
+      }
+    }
+
+    setErrors(currentErrors);
+
+    if (formData.name.trim().length >= 2 && validateEmail(formData.email) && formData.message.trim()) {
       setIsValid(true);
     } else {
       setIsValid(false);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add code to handle form submission here, such as sending the form data to an API.
-    console.log(formData);
+
+    if (!isValid) {
+      return;
+    }
+
+    setIsLoading(true);
+    setEmailStatus(null);
+
+    try {
+      const response = await fetch('/api/mailer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setEmailStatus('success');
+      } else {
+        setEmailStatus('failed');
+      }
+    } catch (error) {
+      setEmailStatus('failed');
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
 
   return (
     <Layout title="Contact Page" classNames="">
@@ -64,7 +129,7 @@ const ContactPage: React.FC = () => {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              placeholder="Your Name"
+              placeholder="Name"
               onFocus={() => handleInputFocus('name')}
               onBlur={() => handleInputBlur('name')}
               className={`blink-caret touch-none resize-none w-full text-center outline-none py-2 px-4 bg-transparent text-[20px] sm:text-[24px] xl:text-[1vw] leading-relaxed ${
@@ -79,6 +144,7 @@ const ContactPage: React.FC = () => {
                   : 'w-full shadow-[0_15px_15px_5px_rgba(255,255,255,0.05)] opacity-85'
               }`}
             ></div>
+            {errors.name && <p className="text-red-500 text-xs text-center mt-2">{errors.name}</p>}
           </div>
           <div className="mb-8">
             <input
@@ -86,7 +152,7 @@ const ContactPage: React.FC = () => {
               id="email"
               name="email"
               value={formData.email}
-              placeholder="Your Email"
+              placeholder="Email"
               onChange={handleInputChange}
               onFocus={() => handleInputFocus('email')}
               onBlur={() => handleInputBlur('email')}
@@ -102,6 +168,7 @@ const ContactPage: React.FC = () => {
                   : 'w-full shadow-[0_15px_15px_5px_rgba(255,255,255,0.05)] opacity-85'
               }`}
             ></div>
+            {errors.email && <p className="text-red-500 text-xs text-center mt-2">{errors.email}</p>}
           </div>
           <div className="mb-8">
             <textarea
@@ -109,7 +176,7 @@ const ContactPage: React.FC = () => {
               id="message"
               name="message"
               value={formData.message}
-              placeholder="Your Message"
+              placeholder="Message"
               onChange={handleInputChange}
               onFocus={() => handleInputFocus('message')}
               onBlur={() => handleInputBlur('message')}
@@ -126,16 +193,28 @@ const ContactPage: React.FC = () => {
                   : 'w-full shadow-[0_15px_15px_5px_rgba(255,255,255,0.05)] opacity-85'
               }`}
             ></div>
+            {errors.message && <p className="text-red-500 text-xs text-center mt-2">{errors.message}</p>}
           </div>
-          <button
-            type="submit"
-            className={`w-full p-2 bg-transparent text-white font-semibold rounded-md ${
-              !isValid && 'opacity-50 cursor-not-allowed'
-            }`}
-            disabled={!isValid}
-          >
-            Submit
-          </button>
+          {emailStatus ? (
+            <div className="mt-4 text-center">
+              {emailStatus === 'success' && (
+                <p className="text-green">Email sent successfully!</p>
+              )}
+              {emailStatus === 'failed' && (
+                <p className="text-red-500">Failed to send email.</p>
+              )}
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className={`w-full p-2 bg-transparent text-white font-semibold rounded-md ${
+                !isValid && 'opacity-50 cursor-not-allowed'
+              }`}
+              disabled={!isValid}
+            >
+              {isLoading ? 'Sending...' : 'Submit'}
+            </button>
+          )}
         </form>
       </div>
     </Layout>
