@@ -1,13 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
-interface TypingTextProps {
-  text: string;
-  delay?: number;
-  classNames?: string;
+interface TypingTextProps extends React.HTMLAttributes<HTMLDivElement> {
+  text: string,
+  delay?: number,
+  classNames?: string,
 }
+
 const TypingText: React.FC<TypingTextProps> = ({text, delay = 100, classNames}) => {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (currentIndex < text.length) {
@@ -19,7 +21,8 @@ const TypingText: React.FC<TypingTextProps> = ({text, delay = 100, classNames}) 
     }
   }, [text, delay, currentIndex]);
 
-  return <div className={`${classNames}`}>{displayText}</div>;
+
+  return <div ref={containerRef} className={`${classNames}`}>{displayText}</div>;
 };
 
 export default TypingText;
