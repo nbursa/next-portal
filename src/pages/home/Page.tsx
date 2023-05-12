@@ -8,7 +8,7 @@ export interface ConversationItem {
 }
 
 const HomePage = () => {
-  const [conversation, setConversation] = useState<ConversationItem[]>([{ai: "HI! What would you like to do?"}]);
+  const [conversation, setConversation] = useState<ConversationItem[]>([{ai: "Hello there! I'm Nenad Bursać, friendly Senior Frontend Developer with a dash of humor. How can we push the boundaries of web development together today?"}]);
   const containerRef = useRef<HTMLDivElement>(null);
   const typingTextRef = useRef<HTMLDivElement>(null) as MutableRefObject<HTMLDivElement>;
   const [typingTextHeight, setTypingTextHeight] = useState<number>(0);
@@ -39,22 +39,44 @@ const HomePage = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // useEffect(() => {
+  //   const container = containerRef.current;
+  //
+  //   if (!container) return;
+  //
+  //   if (autoScroll) {
+  //     container.scrollTop = container.scrollHeight;
+  //   }
+  //
+  //   const handleScroll = () => {
+  //     setAutoScroll(container.scrollTop + container.clientHeight >= container.scrollHeight);
+  //   };
+  //
+  //   container.addEventListener("scroll", handleScroll);
+  //   return () => container.removeEventListener("scroll", handleScroll);
+  // }, [autoScroll, conversation]);
+
   useEffect(() => {
     const container = containerRef.current;
-
     if (!container) return;
 
-    if (autoScroll) {
-      container.scrollTop = container.scrollHeight;
-    }
-
     const handleScroll = () => {
-      setAutoScroll(container.scrollTop + container.clientHeight >= container.scrollHeight);
+      const buffer = 10;
+      setAutoScroll(container.scrollTop + container.clientHeight + buffer >= container.scrollHeight);
     };
 
     container.addEventListener("scroll", handleScroll);
+
+    // Use a setTimeout to allow the browser to render updates before scrolling
+    // setTimeout(() => {
+    if (autoScroll) {
+      container.scrollTop = container.scrollHeight;
+    }
+    // }, 0);
+
     return () => container.removeEventListener("scroll", handleScroll);
   }, [autoScroll, conversation]);
+
 
   const renderTypingText = (text: string, index: number) => {
     if (index >= text.length) return <div ref={typingTextRef}>{text}</div>;
@@ -86,21 +108,23 @@ const HomePage = () => {
     <Layout title="Homepage" classNames="flex flex-col items-center justify-center">
       <div
         ref={containerRef}
-        className="pt-[20vh] min-h-full max-h-[65vh] sm:max-h-[75vh] w-full sm:max-w-[80%] mx-auto overflow-hidden overflow-y-auto scroll-smooth mb-8"
+        className="pt-[20vh] min-h-full max-h-[65vh] sm:max-h-[75vh] w-full  sm:px-[20%] mx-auto overflow-hidden overflow-y-auto scroll-smooth mb-8"
       >
-        {conversation.map(({user = "", ai}, index) => (
-          <>
-            <div className="p-4 italic mb-2 text-left">{user}</div>
-            <div
-              ref={typingTextRef}
-              className={`text-[20px] sm:text-[24px] xl:text-[1vw] px-4 sm:px-0 text-white font-bold z-10 mt-0 text-left mb-4 leading-[1.5] ${
-                index === 0 ? "text-center" : "text-left"
-              }`}
-            >
-              {renderTypingText(ai, index === conversation.length - 1 ? currentIndex : ai.length)}
-            </div>
-          </>
-        ))}
+        <div>
+          {conversation.map(({user = "", ai}, index) => (
+            <>
+              <div className="p-4 italic mb-2 text-center text-[20px] sm:text-[24px] xl:text-[28px]">{user}</div>
+              <div
+                ref={typingTextRef}
+                className={`text-[20px] sm:text-[24px] xl:text-[28px] px-4 sm:px-0 text-white font-bold z-10 mt-0 text-center mb-4 leading-[1.5] ${
+                  index === 0 ? "text-center" : "text-left"
+                }`}
+              >
+                {renderTypingText(ai, index === conversation.length - 1 ? currentIndex : ai.length)}
+              </div>
+            </>
+          ))}
+        </div>
       </div>
       <ChatForm
         setConversation={setConversation}

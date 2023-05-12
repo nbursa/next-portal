@@ -132,7 +132,7 @@ const ContactPage: React.FC = () => {
               placeholder="Name"
               onFocus={() => handleInputFocus('name')}
               onBlur={() => handleInputBlur('name')}
-              className={`blink-caret touch-none resize-none w-full text-center outline-none py-2 px-4 bg-transparent text-[20px] sm:text-[24px] xl:text-[1vw] leading-relaxed ${
+              className={`blink-caret touch-none resize-none w-full text-center outline-none py-2 px-4 bg-transparent text-[20px] sm:text-[24px] xl:text-[28px] leading-relaxed ${
                 !!formData.name || focusState.name ? 'placeholder:text-transparent' : 'placeholder:text-gray placeholder:text-sm'
               }`}
               required
@@ -156,7 +156,7 @@ const ContactPage: React.FC = () => {
               onChange={handleInputChange}
               onFocus={() => handleInputFocus('email')}
               onBlur={() => handleInputBlur('email')}
-              className={`blink-caret touch-none resize-none w-full text-center outline-none py-2 px-4 bg-transparent text-[20px] sm:text-[24px] xl:text-[1vw] leading-relaxed ${
+              className={`blink-caret touch-none resize-none w-full text-center outline-none py-2 px-4 bg-transparent text-[20px] sm:text-[24px] xl:text-[28px] leading-relaxed ${
                 !!formData.email || focusState.email ? 'placeholder:text-transparent' : 'placeholder:text-gray placeholder:text-sm'
               }`}
               required
@@ -180,7 +180,7 @@ const ContactPage: React.FC = () => {
               onChange={handleInputChange}
               onFocus={() => handleInputFocus('message')}
               onBlur={() => handleInputBlur('message')}
-              className={`blink-caret touch-none resize-none w-full text-center outline-none py-2 px-4 bg-transparent text-[20px] sm:text-[24px] xl:text-[1vw] leading-relaxed ${
+              className={`blink-caret touch-none resize-none w-full text-center outline-none py-2 px-4 bg-transparent text-[20px] sm:text-[24px] xl:text-[28px] leading-relaxed ${
                 !!formData.message || focusState.message ? 'placeholder:text-transparent' : 'placeholder:text-gray placeholder:text-sm'
               }`}
               rows={1}
@@ -198,16 +198,16 @@ const ContactPage: React.FC = () => {
           {emailStatus ? (
             <div className="mt-4 text-center">
               {emailStatus === 'success' && (
-                <p className="text-green">Email sent successfully!</p>
+                <p className="text-green">Thank you! Email sent successfully!</p>
               )}
               {emailStatus === 'failed' && (
-                <p className="text-red-500">Failed to send email.</p>
+                <p className="text-red-500">Sorry! Failed to send email.</p>
               )}
             </div>
           ) : (
             <button
               type="submit"
-              className={`w-full p-2 bg-transparent text-white font-semibold rounded-md ${
+              className={`w-full p-2 bg-transparent text-white font-semibold rounded-md text-[20px] sm:text-[24px] xl:text-[28px] ${
                 !isValid && 'opacity-50 cursor-not-allowed'
               }`}
               disabled={!isValid}
