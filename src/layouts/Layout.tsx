@@ -1,8 +1,8 @@
-import Head from 'next/head'
 import React from "react";
 import {GA_TRACKING_ID} from "@/utils/analytics";
 import Script from "next/script";
 import Link from "next/link";
+import {NextSeo} from "next-seo";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -14,19 +14,29 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({
                                          children,
                                          title,
-                                         description = "Portal | Nenad Bursać | Frontend Developer",
+                                         description = "",
                                          classNames = ""
                                        }) => {
   const currentYear = new Date().getFullYear();
 
   return (
     <>
-      <Head>
-        <title>{`Portal | ${title || "Nenad Bursać"}`}</title>
-        <meta name="description" content={description}/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <link rel="icon" href="/icons/favicon.png"/>
-      </Head>
+      <NextSeo
+        title={`Portal | ${title || "Nenad Bursać"}`}
+        description={description}
+        openGraph={{
+          type: 'website',
+          locale: 'en_IE',
+          url: 'https://www.nenadbursac.com/',
+          siteName: 'Nenad Bursać - Senior Frontend Developer',
+        }}
+      />
+      {/*<Head>*/}
+      {/*  <title>{`Portal | ${title || "Nenad Bursać"}`}</title>*/}
+      {/*  <meta name="description" content={description}/>*/}
+      {/*  <meta name="viewport" content="width=device-width, initial-scale=1"/>*/}
+      {/*  <link rel="icon" href="/icons/favicon.png"/>*/}
+      {/*</Head>*/}
       {GA_TRACKING_ID && (
         <>
           <Script
