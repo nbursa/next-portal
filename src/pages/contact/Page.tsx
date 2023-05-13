@@ -118,7 +118,7 @@ const ContactPage: React.FC = () => {
 
 
   return (
-    <Layout title="Contact Page" classNames="">
+    <Layout title="Contact">
       <div className="min-h-screen flex items-center justify-center">
         <form onSubmit={handleSubmit} className="w-full max-w-md p-6">
           <h2 className="text-2xl font-bold mb-8 text-center">Contact</h2>

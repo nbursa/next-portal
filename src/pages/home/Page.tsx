@@ -1,6 +1,8 @@
 import Layout from "@/layouts";
 import ChatForm from "@/components/chat-form";
 import React, {MutableRefObject, useEffect, useLayoutEffect, useRef, useState} from "react";
+import Page from "@/pages/contact/Page";
+import {NextSeo} from "next-seo";
 
 export interface ConversationItem {
   user?: string;
@@ -8,7 +10,7 @@ export interface ConversationItem {
 }
 
 const HomePage = () => {
-  const [conversation, setConversation] = useState<ConversationItem[]>([{ai: "Hello there! I'm Nenad Bursać, friendly Senior Frontend Developer with a dash of humor. How can we push the boundaries of web development together today?"}]);
+  const [conversation, setConversation] = useState<ConversationItem[]>([{ai: "Hello there! I'm Nenad Bursać, friendly Senior Frontend Developer with a dash of humor. How can we push the boundaries of web development together today? :)"}]);
   const containerRef = useRef<HTMLDivElement>(null);
   const typingTextRef = useRef<HTMLDivElement>(null) as MutableRefObject<HTMLDivElement>;
   const [typingTextHeight, setTypingTextHeight] = useState<number>(0);
@@ -39,23 +41,6 @@ const HomePage = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // useEffect(() => {
-  //   const container = containerRef.current;
-  //
-  //   if (!container) return;
-  //
-  //   if (autoScroll) {
-  //     container.scrollTop = container.scrollHeight;
-  //   }
-  //
-  //   const handleScroll = () => {
-  //     setAutoScroll(container.scrollTop + container.clientHeight >= container.scrollHeight);
-  //   };
-  //
-  //   container.addEventListener("scroll", handleScroll);
-  //   return () => container.removeEventListener("scroll", handleScroll);
-  // }, [autoScroll, conversation]);
-
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -67,12 +52,9 @@ const HomePage = () => {
 
     container.addEventListener("scroll", handleScroll);
 
-    // Use a setTimeout to allow the browser to render updates before scrolling
-    // setTimeout(() => {
     if (autoScroll) {
       container.scrollTop = container.scrollHeight;
     }
-    // }, 0);
 
     return () => container.removeEventListener("scroll", handleScroll);
   }, [autoScroll, conversation]);
@@ -99,7 +81,7 @@ const HomePage = () => {
         if (autoScroll && containerRef.current) {
           containerRef.current.scrollTop = containerRef.current.scrollHeight;
         }
-      }, 100);
+      }, 40);
       return () => clearTimeout(timeoutId);
     }
   }, [conversation, currentIndex, autoScroll]);
@@ -113,7 +95,7 @@ const HomePage = () => {
         <div>
           {conversation.map(({user = "", ai}, index) => (
             <>
-              <div className="p-4 italic mb-2 text-center text-[20px] sm:text-[24px] xl:text-[28px]">{user}</div>
+              <div className="p-4 italic mb-2 text-center text-[20px] xl:text-[24px]">{user}</div>
               <div
                 ref={typingTextRef}
                 className={`text-[20px] sm:text-[24px] xl:text-[28px] px-4 sm:px-0 text-white font-bold z-10 mt-0 text-center mb-4 leading-[1.5] ${

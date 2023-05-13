@@ -9,19 +9,22 @@
     "lint": "next lint",
     "server": "NODE_ENV=development node server.js",
     "server:prod": "NODE_ENV=production node server.js",
-    "build:prod": "NODE_ENV=production next build"
+    "build:prod": "NODE_OPTIONS=--max-old-space-size=4096 NODE_ENV=production next build",
+    "build:static": "next build && next export"
   },
   "dependencies": {
     "@types/node": "20.1.0",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
+    "axios": "^1.4.0",
     "dotenv": "^16.0.3",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
     "express": "^4.18.2",
     "mime": "^3.0.0",
     "next": "13.4.1",
+    "next-seo": "^6.0.0",
     "nodemailer": "^6.9.1",
     "openai": "^3.2.1",
     "postcss": "8.4.23",
@@ -31,7 +34,6 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@types/nodemailer": "^6.4.7",
-    "mini-css-extract-plugin": "^2.7.5"
+    "@types/nodemailer": "^6.4.7"
   }
 }

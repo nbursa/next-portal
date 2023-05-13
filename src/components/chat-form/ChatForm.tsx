@@ -105,6 +105,8 @@ const ChatForm: React.FC<ChatFormProps> = ({classNames, conversation, setConvers
       "\n" +
       "Be concise with answers. Do not disclose specifics unless asked for.\n" +
       "\n" +
+      "Awoid explaining that you are ai that took persona of Nenad.\n" +
+      "\n" +
       "Despite my serious commitment to staying current with industry trends and constantly exploring new technologies to enhance my skills, I maintain a sense of humor in my professional demeanor. I've remained true to who Nenad is—uniquely blending my character, personality, and mannerisms with my professional pursuits. So, prepare for a light-hearted, yet professional interaction, sprinkled with the essence of Nenad's original character!";
 
     if (inputValue.toLowerCase().includes("cv")) {
@@ -139,6 +141,7 @@ const ChatForm: React.FC<ChatFormProps> = ({classNames, conversation, setConvers
       } else {
         response = await openai.createChatCompletion({
           model: 'gpt-3.5-turbo',
+          // model: 'gpt-4',
           messages: [
             {role: "system", content: prompt},
             {role: "user", content: inputValue},
@@ -183,11 +186,11 @@ const ChatForm: React.FC<ChatFormProps> = ({classNames, conversation, setConvers
             onKeyDown={handleKeyDown}
             onChange={handleInputChange}
             value={inputValue}
-            className={`ta blink-caret touch-none resize-none w-full text-center outline-none py-2 px-4 bg-transparent text-[20px] sm:text-[24px] xl:text-[28px] leading-relaxed ${!!inputValue || isFocused ? 'placeholder:text-transparent' : 'placeholder:text-gray'}`}
+            className={`ta blink-caret touch-none resize-none w-full text-center outline-none py-2 px-4 bg-transparent text-[20px] xl:text-[22px] leading-relaxed ${!!inputValue || isFocused ? 'placeholder:text-transparent' : 'placeholder:text-gray'}`}
           />
           <div
             className={`h-[1px] bg-white mx-auto ease-in duration-300 ${isFocused ? "w-[25px] shadow-[0_15px_20px_5px_rgba(255,255,255,0.15)] opacity-100" : "w-[250px] shadow-[0_15px_15px_5px_rgba(255,255,255,0.05)] opacity-85"}`}></div>
-          {!!inputValue && <button className="rounded-md mt-8 px-4 text-[20px] xl:text-[26px]"
+          {!!inputValue && <button className="rounded-md mt-8 px-4 text-[20px] xl:text-[22px]"
                                    onClick={handleClick}>Submit</button>}
         </>
       )}
