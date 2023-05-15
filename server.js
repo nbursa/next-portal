@@ -13,7 +13,7 @@ const envFilePath = process.env.NODE_ENV === 'production'
 dotenv.config({path: path.join(process.cwd(), envFilePath)});
 
 const dev = process.env.NODE_ENV !== 'production';
-const port = Number(process.env.PORT) || 3001;
+const port = Number(process.env.PORT) || 5002;
 const app = next({dev});
 const handle = app.getRequestHandler();
 
@@ -42,10 +42,11 @@ app.prepare().then(() => {
             handle(req, res, parsedUrl);
         }
     }).listen(port, () => {
-        if (dev) {
-            const localIPs = getLocalIP();
-            console.log(`Local IP ready on http://${localIPs}:${port}`);
-        }
+        // if (dev) {
+        const localIPs = getLocalIP();
+        //     console.log(`Local IP ready on http://${localIPs}:${port}`);
+        // }
+        console.log(`Local IP ready on http://${localIPs}:${port}`);
         console.log(`> Server is ready on http://localhost:${port}`);
     });
 });

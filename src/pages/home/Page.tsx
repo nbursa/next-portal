@@ -1,8 +1,6 @@
 import Layout from "@/layouts";
 import ChatForm from "@/components/chat-form";
 import React, {MutableRefObject, useEffect, useLayoutEffect, useRef, useState} from "react";
-import Page from "@/pages/contact/Page";
-import {NextSeo} from "next-seo";
 
 export interface ConversationItem {
   user?: string;
@@ -10,7 +8,7 @@ export interface ConversationItem {
 }
 
 const HomePage = () => {
-  const [conversation, setConversation] = useState<ConversationItem[]>([{ai: "Hello there! I'm Nenad Bursać, friendly Senior Frontend Developer with a dash of humor. How can we push the boundaries of web development together today? :)"}]);
+  const [conversation, setConversation] = useState<ConversationItem[]>([{ai: "Hello there! I'm Nenad Bursać, Senior Frontend Developer from Belgrade, Serbia. How can we push the boundaries of web development together today? :)"}]);
   const containerRef = useRef<HTMLDivElement>(null);
   const typingTextRef = useRef<HTMLDivElement>(null) as MutableRefObject<HTMLDivElement>;
   const [typingTextHeight, setTypingTextHeight] = useState<number>(0);
@@ -24,7 +22,7 @@ const HomePage = () => {
     }
   }, [conversation, containerRef.current?.offsetHeight]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const container = containerRef.current;
 
     if (container) {
@@ -37,7 +35,7 @@ const HomePage = () => {
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, {passive: true});
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -50,7 +48,7 @@ const HomePage = () => {
       setAutoScroll(container.scrollTop + container.clientHeight + buffer >= container.scrollHeight);
     };
 
-    container.addEventListener("scroll", handleScroll);
+    container.addEventListener("scroll", handleScroll, {passive: true});
 
     if (autoScroll) {
       container.scrollTop = container.scrollHeight;
@@ -94,7 +92,7 @@ const HomePage = () => {
       >
         <div>
           {conversation.map(({user = "", ai}, index) => (
-            <>
+            <div key={index}>
               <div className="p-4 italic mb-2 text-center text-[20px] xl:text-[24px]">{user}</div>
               <div
                 ref={typingTextRef}
@@ -104,7 +102,7 @@ const HomePage = () => {
               >
                 {renderTypingText(ai, index === conversation.length - 1 ? currentIndex : ai.length)}
               </div>
-            </>
+            </div>
           ))}
         </div>
       </div>
