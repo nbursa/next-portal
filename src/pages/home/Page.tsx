@@ -1,6 +1,7 @@
 import Layout from "@/layouts";
 import ChatForm from "@/components/chat-form";
 import React, {MutableRefObject, useEffect, useLayoutEffect, useRef, useState} from "react";
+import NavButton from "@/components/common/NavButton";
 
 export interface ConversationItem {
   user?: string;
@@ -8,7 +9,10 @@ export interface ConversationItem {
 }
 
 const HomePage = () => {
-  const [conversation, setConversation] = useState<ConversationItem[]>([{ai: "Hello there! I'm Nenad Bursać, Senior Frontend Developer from Belgrade, Serbia. How can we push the boundaries of web development together today? :)"}]);
+  const [conversation, setConversation] = useState<ConversationItem[]>([{
+    user: "",
+    ai: "Hello there! I'm Nenad Bursać, Frontend Developer from Belgrade, Serbia. How can we push the boundaries of web development together today? :)"
+  }]);
   const containerRef = useRef<HTMLDivElement>(null);
   const typingTextRef = useRef<HTMLDivElement>(null) as MutableRefObject<HTMLDivElement>;
   const [typingTextHeight, setTypingTextHeight] = useState<number>(0);
@@ -16,11 +20,50 @@ const HomePage = () => {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    if (containerRef.current) {
-      setTypingTextHeight(containerRef.current.offsetHeight);
+  const saveConversation = async () => {
+    try {
+      const res = await fetch('/api/conversations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(conversation)
+      });
+
+      if (res.ok) {
+        alert('Conversation saved successfully');
+      } else {
+        console.error('Failed to save conversation', await res.text());
+      }
+    } catch (err) {
+      console.error('Failed to save conversation', err);
     }
-  }, [conversation, containerRef.current?.offsetHeight]);
+  };
+
+  // useEffect(() => {
+  //   const loadConversations = async () => {
+  //     try {
+  //       const res = await fetch('/api/conversations');
+  //       if (!res.ok) {
+  //         throw new Error(await res.text());
+  //       }
+  //       const data = await res.json();
+  //       setConversation(data);
+  //     } catch (err) {
+  //       console.error('Failed to load conversation', err);
+  //     }
+  //   };
+  //
+  //   loadConversations().then(r => {
+  //     console.log("conversations loaded: ", conversation);
+  //   });
+  // }, [conversation]);
+
+  // useEffect(() => {
+  //   if (containerRef.current) {
+  //     setTypingTextHeight(containerRef.current.offsetHeight);
+  //   }
+  // }, [conversation, containerRef.current?.offsetHeight]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -57,6 +100,24 @@ const HomePage = () => {
     return () => container.removeEventListener("scroll", handleScroll);
   }, [autoScroll, conversation]);
 
+  useEffect(() => {
+    const text = conversation[conversation.length - 1]?.ai;
+    if (currentIndex < text?.length) {
+      const timeoutId = setTimeout(() => {
+        setDisplayText(text.slice(0, currentIndex + 1));
+        setCurrentIndex(currentIndex + 1);
+        if (autoScroll && containerRef.current) {
+          containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        }
+      }, 40);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [conversation, currentIndex, autoScroll]);
+
+  useEffect(() => {
+    const saveTimer = setTimeout(saveConversation, 1 * 60 * 1000);
+    return () => clearTimeout(saveTimer);
+  }, [conversation, saveConversation]);
 
   const renderTypingText = (text: string, index: number) => {
     if (index >= text.length) return <div ref={typingTextRef}>{text}</div>;
@@ -69,20 +130,6 @@ const HomePage = () => {
       </div>
     );
   };
-
-  useEffect(() => {
-    const text = conversation[conversation.length - 1].ai;
-    if (currentIndex < text.length) {
-      const timeoutId = setTimeout(() => {
-        setDisplayText(text.slice(0, currentIndex + 1));
-        setCurrentIndex(currentIndex + 1);
-        if (autoScroll && containerRef.current) {
-          containerRef.current.scrollTop = containerRef.current.scrollHeight;
-        }
-      }, 40);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [conversation, currentIndex, autoScroll]);
 
   return (
     <Layout title="Homepage" classNames="flex flex-col items-center justify-center">
