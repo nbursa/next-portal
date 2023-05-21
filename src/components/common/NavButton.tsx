@@ -14,9 +14,9 @@ const NavButton: React.FC<NavButtonProps> = ({href, label, icon, ...props}) => {
       <div
         className="flex items-center justify-center w-full h-full rounded-full bg-gray-light opacity-70 group-hover:opacity-100 transition-opacity duration-300 ease-in-out p-2"
       >
-        <span className="group-hover:hidden">
+        {icon && <span className="group-hover:hidden">
             {icon}
-        </span>
+        </span>}
         <span
           className="hidden text-sm font-bold text-transparent text-gray-dark group-hover:inline-block group-hover:text-gray-dark">
             {label}
