@@ -10,7 +10,7 @@ export interface ConversationItem {
 const HomePage = () => {
   const [conversation, setConversation] = useState<ConversationItem[]>([{
     user: "",
-    ai: "Hello there! I'm Nenad Bursać, Frontend Developer from Belgrade, Serbia. How can we push the boundaries of web development together today? :)"
+    ai: "Hello there! I'm Nenad Bursać, Frontend Developer from Belgrade, Serbia. 👋"
   }]);
   const containerRef = useRef<HTMLDivElement>(null);
   const typingTextRef = useRef<HTMLDivElement>(null) as MutableRefObject<HTMLDivElement>;
@@ -93,29 +93,29 @@ const HomePage = () => {
     }
   }, [conversation, currentIndex, autoScroll]);
 
-  useEffect(() => {
-    const saveConversation = async () => {
-      try {
-        const res = await fetch('/api/conversations', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(conversation)
-        });
-
-        if (!res.ok) {
-          console.error('Failed to save conversation', await res.text());
-        }
-      } catch (err) {
-        console.error('Failed to save conversation', err);
-      }
-    };
-
-    // const saveTimer = setTimeout(saveConversation, 1 * 60 * 1000);
-    // return () => clearTimeout(saveTimer);
-    saveConversation().then(r => console.log('Conversation saved successfully'));
-  }, [conversation]);
+  // useEffect(() => {
+  //   const saveConversation = async () => {
+  //     try {
+  //       const res = await fetch('/api/conversations', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json'
+  //         },
+  //         body: JSON.stringify(conversation)
+  //       });
+  //
+  //       if (!res.ok) {
+  //         console.error('Failed to save conversation', await res.text());
+  //       }
+  //     } catch (err) {
+  //       console.error('Failed to save conversation', err);
+  //     }
+  //   };
+  //
+  //   // const saveTimer = setTimeout(saveConversation, 1 * 60 * 1000);
+  //   // return () => clearTimeout(saveTimer);
+  //   saveConversation().then(r => console.log('Conversation saved successfully'));
+  // }, [conversation]);
 
   const renderTypingText = (text: string, index: number) => {
     if (index >= text.length) return <div ref={typingTextRef}>{text}</div>;
