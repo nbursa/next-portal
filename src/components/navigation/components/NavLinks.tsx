@@ -5,6 +5,7 @@ import {useRouter} from "next/router";
 export type NavLink = {
   href: string;
   label: string;
+  icon?: React.ReactNode;
 }
 
 interface NavigationProps {
