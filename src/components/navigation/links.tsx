@@ -1,18 +1,13 @@
 import {NavLink} from "@/components/navigation/components/NavLinks";
-// import {AlternateEmailSharp, HomeSharp} from "@mui/icons-material";
-//
-// const HomeSharpIcon = () => <HomeSharp color="primary"/>;
-// const ContactSharpIcon = () => <AlternateEmailSharp color="primary"/>;
+import {AlternateEmailSharp, Home} from "@mui/icons-material";
 
 export const links: NavLink[] = [
-  {
-    href: '/', label: 'Home', icon: null
-  },
-  {
-    href: '/contact',
-    label: 'Contact',
-    icon: null
-
-
-  },
+    {
+        href: '/', label: 'Home', icon: <Home style={{color: "#273444"}}/>
+    },
+    {
+        href: '/contact',
+        label: 'Contact',
+        icon: <AlternateEmailSharp style={{color: "#273444"}}/>
+    },
 ];
