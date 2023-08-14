@@ -10,7 +10,7 @@ export interface ConversationItem {
 const HomePage = () => {
   const [conversation, setConversation] = useState<ConversationItem[]>([{
     user: "",
-    ai: "Hello there! I'm Nenad Bursać, Frontend Developer from Belgrade, Serbia. 👋"
+    ai: "Hello there! I'm Nenad Bursać, Frontend Developer from Belgrade, Serbia. 👋 Type below to start conversation with AI assistant."
   }]);
   const containerRef = useRef<HTMLDivElement>(null);
   const typingTextRef = useRef<HTMLDivElement>(null) as MutableRefObject<HTMLDivElement>;
@@ -18,31 +18,6 @@ const HomePage = () => {
   const [autoScroll, setAutoScroll] = useState(true);
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  // useEffect(() => {
-  //   const loadConversations = async () => {
-  //     try {
-  //       const res = await fetch('/api/conversations');
-  //       if (!res.ok) {
-  //         throw new Error(await res.text());
-  //       }
-  //       const data = await res.json();
-  //       setConversation(data);
-  //     } catch (err) {
-  //       console.error('Failed to load conversation', err);
-  //     }
-  //   };
-  //
-  //   loadConversations().then(r => {
-  //     console.log("conversations loaded: ", conversation);
-  //   });
-  // }, [conversation]);
-
-  // useEffect(() => {
-  //   if (containerRef.current) {
-  //     setTypingTextHeight(containerRef.current.offsetHeight);
-  //   }
-  // }, [conversation, containerRef.current?.offsetHeight]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -93,29 +68,27 @@ const HomePage = () => {
     }
   }, [conversation, currentIndex, autoScroll]);
 
-  // useEffect(() => {
-  //   const saveConversation = async () => {
-  //     try {
-  //       const res = await fetch('/api/conversations', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         },
-  //         body: JSON.stringify(conversation)
-  //       });
-  //
-  //       if (!res.ok) {
-  //         console.error('Failed to save conversation', await res.text());
-  //       }
-  //     } catch (err) {
-  //       console.error('Failed to save conversation', err);
-  //     }
-  //   };
-  //
-  //   // const saveTimer = setTimeout(saveConversation, 1 * 60 * 1000);
-  //   // return () => clearTimeout(saveTimer);
-  //   saveConversation().then(r => console.log('Conversation saved successfully'));
-  // }, [conversation]);
+  useEffect(() => {
+    const saveConversation = async () => {
+      try {
+        const res = await fetch('/api/conversations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(conversation)
+        });
+
+        if (!res.ok) {
+          console.error('Failed to save conversation', await res.text());
+        }
+      } catch (err) {
+        console.error('Failed to save conversation', err);
+      }
+    };
+
+    saveConversation();
+  }, [conversation]);
 
   const renderTypingText = (text: string, index: number) => {
     if (index >= text.length) return <div ref={typingTextRef}>{text}</div>;
@@ -136,7 +109,7 @@ const HomePage = () => {
         className="pt-[20vh] min-h-full max-h-[65vh] sm:max-h-[75vh] w-full  sm:px-[20%] mx-auto overflow-hidden overflow-y-auto scroll-smooth mb-8"
       >
         <div>
-          {conversation.map(({user = "", ai}, index) => (
+          {conversation.map(({user = "Hello", ai}, index) => (
             <div key={index}>
               <div className="p-4 italic mb-2 text-center text-[20px] xl:text-[24px]">{user}</div>
               <div
