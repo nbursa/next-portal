@@ -13,11 +13,8 @@
     "build:static": "next build && next export"
   },
   "dependencies": {
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.11.16",
     "@types/node": "20.1.0",
     "@types/react": "18.2.6",
-    "better-sqlite3": "^8.5.0",
     "dotenv": "^16.0.3",
     "eslint": "8.40.0",
     "eslint-config-next": "13.3.0",
@@ -33,7 +30,6 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.4",
     "@types/nodemailer": "^6.4.7",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.23",

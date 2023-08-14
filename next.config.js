@@ -1,10 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    env: {
-        PROMPT: process.env.PROMPT,
-        EMAIL: process.env.EMAIL,
-    },
     reactStrictMode: true,
+    // webpack(config) {
+    //     return config;
+    // },
     images: {
         domains: [],
     },
