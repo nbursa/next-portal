@@ -1,8 +1,7 @@
-import {NavLink} from "@/components/navigation/components/NavLinks";
-// import {AlternateEmailSharp, HomeSharp} from "@mui/icons-material";
-//
-// const HomeSharpIcon = () => <HomeSharp color="primary"/>;
-// const ContactSharpIcon = () => <AlternateEmailSharp color="primary"/>;
+import {
+  NavLink
+} from "@/components/navigation/components/NavLinks";
+import Image from "next/image";
 
 export const links: NavLink[] = [
   {
@@ -11,8 +10,11 @@ export const links: NavLink[] = [
   {
     href: '/contact',
     label: 'Contact',
-    icon: null
-
-
+    icon: <Image src='/assets/email.svg' width={25} height={25} alt='email icon'/>
   },
+  // {
+  //   href: '/ai-journals',
+  //   label: 'AI Journals',
+  //   icon: <Image src='/assets/memory.svg' width={25} height={25} alt='ai icon'/>
+  // }
 ];
