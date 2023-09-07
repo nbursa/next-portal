@@ -12,6 +12,25 @@ const validateEmail = (email: string) => {
   return re.test(String(email).toLowerCase());
 };
 
+const validateForm = (formData: FormData) => {
+  const errors: { name?: string; email?: string; message?: string } = {};
+
+  if (formData.name.trim().length < 2) {
+    errors.name = 'Name must be at least 2 characters.';
+  }
+
+  if (!validateEmail(formData.email)) {
+    errors.email = 'Invalid email format.';
+  }
+
+  if (!formData.message.trim()) {
+    errors.message = 'Message cannot be empty.';
+  }
+
+  return errors;
+};
+
+
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -38,54 +57,70 @@ const ContactPage: React.FC = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (textareaRef.current) {
-      if (textareaRef.current.scrollHeight < 200) {
-        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-      }
-    }
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
 
-    const {name, value} = e.target;
-    setFormData((prevFormData) => ({...prevFormData, [name]: value}));
+    const newErrors = validateForm({ ...formData, [name]: value });
+    setErrors(newErrors);
 
-    let currentErrors = {...errors};
-
-    if (name === 'name') {
-      if (value.trim().length < 2) {
-        currentErrors.name = 'Name must be at least 2 characters.';
-      } else {
-        delete currentErrors.name;
-      }
-    }
-
-    if (name === 'email') {
-      if (!validateEmail(value)) {
-        currentErrors.email = 'Invalid email format.';
-      } else {
-        delete currentErrors.email;
-      }
-    }
-
-    if (name === 'message') {
-      if (!value.trim()) {
-        currentErrors.message = 'Message cannot be empty.';
-      } else {
-        delete currentErrors.message;
-      }
-    }
-
-    setErrors(currentErrors);
-
-    if (formData.name.trim().length >= 2 && validateEmail(formData.email) && formData.message.trim()) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
+    const isValidForm = Object.keys(newErrors).length === 0;
+    setIsValid(isValidForm);
   };
+
+
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  //   if (textareaRef.current) {
+  //     if (textareaRef.current.scrollHeight < 200) {
+  //       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+  //     }
+  //   }
+  //
+  //   const {name, value} = e.target;
+  //   setFormData((prevFormData) => ({...prevFormData, [name]: value}));
+  //
+  //   let currentErrors = {...errors};
+  //
+  //   if (name === 'name') {
+  //     if (value.trim().length < 2) {
+  //       currentErrors.name = 'Name must be at least 2 characters.';
+  //     } else {
+  //       delete currentErrors.name;
+  //     }
+  //   }
+  //
+  //   if (name === 'email') {
+  //     if (!validateEmail(value)) {
+  //       currentErrors.email = 'Invalid email format.';
+  //     } else {
+  //       delete currentErrors.email;
+  //     }
+  //   }
+  //
+  //   if (name === 'message') {
+  //     if (!value.trim()) {
+  //       currentErrors.message = 'Message cannot be empty.';
+  //     } else {
+  //       delete currentErrors.message;
+  //     }
+  //   }
+  //
+  //   setErrors(currentErrors);
+  //
+  //   if (formData.name.trim().length >= 2 && validateEmail(formData.email) && formData.message.trim()) {
+  //     setIsValid(true);
+  //   } else {
+  //     setIsValid(false);
+  //   }
+  // };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!isValid) {
+    const newErrors = validateForm(formData);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      setIsValid(false);
       return;
     }
 
@@ -105,6 +140,11 @@ const ContactPage: React.FC = () => {
 
       if (data.success) {
         setEmailStatus('success');
+        setFormData({
+          name: '',
+          email: '',
+          message: '',
+        })
       } else {
         setEmailStatus('failed');
       }
@@ -113,6 +153,9 @@ const ContactPage: React.FC = () => {
       console.error('Error:', error);
     } finally {
       setIsLoading(false);
+      setTimeout(() => {
+        setEmailStatus(null);
+      }, 4000);
     }
   };
 
@@ -121,7 +164,8 @@ const ContactPage: React.FC = () => {
     <Layout title="Contact">
       <div className="min-h-screen flex items-center justify-center">
         <form onSubmit={handleSubmit} className="w-full max-w-md p-6">
-          <h2 className="text-2xl font-bold mb-8 text-center">Contact</h2>
+          <h2 className="text-2xl font-bold text-center">Contact</h2>
+          <p className="text-xs text-white text-center mb-8">Lets talk!</p>
           <div className="mb-8">
             <input
               type="text"
@@ -195,25 +239,24 @@ const ContactPage: React.FC = () => {
             ></div>
             {errors.message && <p className="text-red-500 text-xs text-center mt-2">{errors.message}</p>}
           </div>
-          {emailStatus ? (
-            <div className="mt-4 text-center">
+          <button
+            type="submit"
+            className={`w-full p-2 bg-transparent text-white font-semibold rounded-md text-[20px] sm:text-[24px] xl:text-[28px] ${
+              !isValid && 'opacity-50 cursor-not-allowed'
+            }`}
+            disabled={!isValid}
+          >
+            {isLoading ? 'Sending...' : 'Submit'}
+          </button>
+          {emailStatus && (
+            <div className="mt-4 text-center text-sm">
               {emailStatus === 'success' && (
-                <p className="text-green">Thank you! Email sent successfully!</p>
+                <p className="text-green">Done! Email sent successfully!</p>
               )}
               {emailStatus === 'failed' && (
                 <p className="text-red-500">Sorry! Failed to send email.</p>
               )}
             </div>
-          ) : (
-            <button
-              type="submit"
-              className={`w-full p-2 bg-transparent text-white font-semibold rounded-md text-[20px] sm:text-[24px] xl:text-[28px] ${
-                !isValid && 'opacity-50 cursor-not-allowed'
-              }`}
-              disabled={!isValid}
-            >
-              {isLoading ? 'Sending...' : 'Submit'}
-            </button>
           )}
         </form>
       </div>

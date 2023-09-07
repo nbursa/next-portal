@@ -9,8 +9,8 @@ const ChatForm: React.FC<ChatFormProps> = ({classNames, conversation, setConvers
   const [isFocused, setFocus] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const [requestCV, setRequestCV] = useState(false);
-  const [email, setEmail] = useState("");
+  // const [requestCV, setRequestCV] = useState(false);
+  // const [email, setEmail] = useState("");
 
   const configuration = new Configuration({
     apiKey: apiConfig.apiKey,
@@ -32,20 +32,20 @@ const ChatForm: React.FC<ChatFormProps> = ({classNames, conversation, setConvers
     setFocus(false);
   };
 
-  const sendCVToEmail = async (email: string): Promise<boolean> => {
-    try {
-      const response = await fetch('/api/mailer', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({name: "mailbot", email, message: conversation}),
-      });
-      const data = await response.json();
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  };
+  // const sendCVToEmail = async (email: string): Promise<boolean> => {
+  //   try {
+  //     const response = await fetch('/api/mailer', {
+  //       method: 'POST',
+  //       headers: {'Content-Type': 'application/json'},
+  //       body: JSON.stringify({name: "mailbot", email, message: conversation}),
+  //     });
+  //     const data = await response.json();
+  //     return true;
+  //   } catch (error) {
+  //     console.error(error);
+  //     return false;
+  //   }
+  // };
 
   const handleInputChange = async (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(event.target.value);
@@ -54,12 +54,12 @@ const ChatForm: React.FC<ChatFormProps> = ({classNames, conversation, setConvers
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
 
-    if (requestCV && /\S+@\S+\.\S+/.test(inputValue)) {
-      setRequestCV(false);
-      setEmail(inputValue.trim());
-      await sendCVToEmail(email);
-      setInputValue("");
-    }
+    // if (requestCV && /\S+@\S+\.\S+/.test(inputValue)) {
+    //   setRequestCV(false);
+    //   setEmail(inputValue.trim());
+    //   await sendCVToEmail(email);
+    //   setInputValue("");
+    // }
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -129,7 +129,6 @@ const ChatForm: React.FC<ChatFormProps> = ({classNames, conversation, setConvers
     }
   };
 
-
   return (
     <form className={`relative flex flex-col items-center justify-center ${classNames}`}>
       {loading ? (
@@ -139,19 +138,22 @@ const ChatForm: React.FC<ChatFormProps> = ({classNames, conversation, setConvers
         </div>
       ) : (
         <>
-          <textarea
-            ref={textareaRef}
-            rows={1}
-            placeholder="Type here..."
-            onFocus={handleInputFocus}
-            onBlur={handleInputBlur}
-            onKeyDown={handleKeyDown}
-            onChange={handleInputChange}
-            value={inputValue}
-            className={`ta blink-caret touch-none resize-none w-full text-center outline-none py-2 px-4 bg-transparent text-[20px] xl:text-[22px] leading-relaxed ${!!inputValue || isFocused ? 'placeholder:text-transparent' : 'placeholder:text-gray'}`}
-          />
-          <div
-            className={`h-[1px] bg-white mx-auto ease-in duration-300 ${isFocused ? "w-[25px] shadow-[0_15px_20px_5px_rgba(255,255,255,0.15)] opacity-100" : "w-[250px] shadow-[0_15px_15px_5px_rgba(255,255,255,0.05)] opacity-85"}`}></div>
+          <div className="flex w-full">
+            <textarea
+              ref={textareaRef}
+              rows={1}
+              placeholder="Type here..."
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+              onKeyDown={handleKeyDown}
+              onChange={handleInputChange}
+              value={inputValue}
+              className={`ta blink-caret touch-none resize-none w-full text-center outline-none py-2 px-4 bg-transparent border border-gray rounded-[26px] text-[20px] xl:text-[22px] leading-relaxed ${!!inputValue || isFocused ? 'placeholder:text-transparent' : 'placeholder:text-gray'}`}
+            />
+            {/*<button type="button" className="border border-blue rounded hover:shadow-white h-12 w-12 px-2">Go!</button>*/}
+          </div>
+          {/*<div*/}
+          {/*  className={`h-[1px] bg-white mx-auto ease-in duration-300 ${isFocused ? "w-[25px] shadow-[0_15px_20px_5px_rgba(255,255,255,0.15)] opacity-100" : "w-[250px] shadow-[0_15px_15px_5px_rgba(255,255,255,0.05)] opacity-85"}`}></div>*/}
           {!!inputValue && <button className="rounded-md mt-8 px-4 text-[20px] xl:text-[22px]"
                                    onClick={handleClick}>Submit</button>}
         </>

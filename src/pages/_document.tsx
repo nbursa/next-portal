@@ -1,10 +1,10 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import {Head, Html, Main, NextScript} from 'next/document'
 
 const Document = () => {
   return (
     <Html lang="en">
       <Head />
-      <body>
+      <body className="relative h-screen w-screen overflow-hidden">
         <Main />
         <NextScript />
       </body>

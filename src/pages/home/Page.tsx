@@ -1,6 +1,11 @@
 import Layout from "@/layouts";
 import ChatForm from "@/components/chat-form";
-import React, {MutableRefObject, useEffect, useRef, useState} from "react";
+import React, {
+  MutableRefObject,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 
 export interface ConversationItem {
   user?: string;
@@ -10,7 +15,9 @@ export interface ConversationItem {
 const HomePage = () => {
   const [conversation, setConversation] = useState<ConversationItem[]>([{
     user: "",
-    ai: "Hello there! I'm Nenad Bursać, Frontend Developer from Belgrade, Serbia. 👋"
+    ai: "Hey there, 🙋‍ welcome onboard! I'm Nenad Bursać, a Frontend Developer 🎨 crafting UIs 💻 from Belgrade, Serbia 🇷🇸. Feel free to chat with my AI assistant 🤖 below for some tech trivia 🧠, jokes 😄, or to learn more about what I do 👨‍💻!"
+    // ai: "Hey there 👋, welcome onboard! I'm Nenad Bursać, a seasoned Frontend Developer crafting 🛠 UIs from the heart of Belgrade, Serbia. Feel free to chat with my AI assistant below for some tech trivia, jokes, or to learn more about what I do!"
+    // ai: "Hello there! I'm Nenad Bursać, Frontend Developer from Belgrade, Serbia 👋. Use input below to chat with ai assistant for fun."
   }]);
   const containerRef = useRef<HTMLDivElement>(null);
   const typingTextRef = useRef<HTMLDivElement>(null) as MutableRefObject<HTMLDivElement>;
@@ -18,31 +25,6 @@ const HomePage = () => {
   const [autoScroll, setAutoScroll] = useState(true);
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  // useEffect(() => {
-  //   const loadConversations = async () => {
-  //     try {
-  //       const res = await fetch('/api/conversations');
-  //       if (!res.ok) {
-  //         throw new Error(await res.text());
-  //       }
-  //       const data = await res.json();
-  //       setConversation(data);
-  //     } catch (err) {
-  //       console.error('Failed to load conversation', err);
-  //     }
-  //   };
-  //
-  //   loadConversations().then(r => {
-  //     console.log("conversations loaded: ", conversation);
-  //   });
-  // }, [conversation]);
-
-  // useEffect(() => {
-  //   if (containerRef.current) {
-  //     setTypingTextHeight(containerRef.current.offsetHeight);
-  //   }
-  // }, [conversation, containerRef.current?.offsetHeight]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -93,30 +75,6 @@ const HomePage = () => {
     }
   }, [conversation, currentIndex, autoScroll]);
 
-  // useEffect(() => {
-  //   const saveConversation = async () => {
-  //     try {
-  //       const res = await fetch('/api/conversations', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         },
-  //         body: JSON.stringify(conversation)
-  //       });
-  //
-  //       if (!res.ok) {
-  //         console.error('Failed to save conversation', await res.text());
-  //       }
-  //     } catch (err) {
-  //       console.error('Failed to save conversation', err);
-  //     }
-  //   };
-  //
-  //   // const saveTimer = setTimeout(saveConversation, 1 * 60 * 1000);
-  //   // return () => clearTimeout(saveTimer);
-  //   saveConversation().then(r => console.log('Conversation saved successfully'));
-  // }, [conversation]);
-
   const renderTypingText = (text: string, index: number) => {
     if (index >= text.length) return <div ref={typingTextRef}>{text}</div>;
 
@@ -154,7 +112,7 @@ const HomePage = () => {
       <ChatForm
         setConversation={setConversation}
         conversation={conversation}
-        classNames="w-full max-w-[500px] h-auto mx-auto px-4 sm:px-12 mb-12"
+        classNames="w-full sm:max-w-[75vw] md:max-w-[60vw] lg:max-w-3xl h-auto mx-auto px-4 sm:px-12 mb-12"
       />
     </Layout>
   );
