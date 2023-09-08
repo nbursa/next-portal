@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Decode SSH key
-        run: echo "${{ secrets.NEW_DEPLOY_KEY }}" > id_rsa
+        run: echo "${{ secrets.DEPLOY_KEY }}" > id_rsa
 
       - name: Debug Secret Start
         run: echo "Start of DEPLOY_KEY is ${DEPLOY_KEY:0:15}"
