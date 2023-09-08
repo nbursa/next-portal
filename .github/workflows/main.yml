@@ -53,6 +53,11 @@ jobs:
       - name: List files
         run: ls -al
 
+      - name: Set Locale
+        run: |
+          echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
+          echo "LC_ALL=en_US.UTF-8" >> $GITHUB_ENV
+
       - name: Deploy to cPanel
         run: |
           scp -P 2233 -r .next ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
