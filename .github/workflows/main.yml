@@ -26,6 +26,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Debug Secret Length
+        run: echo "Length of DEPLOY_KEY is ${#DEPLOY_KEY}"
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.5.3
         with:
