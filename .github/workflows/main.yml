@@ -11,21 +11,37 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Setup Node.js environment
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
+
       - name: Install dependencies
         run: npm install
+
       - name: Run lint
         run: npm run lint
+
       - name: Build project
         run: npm run build:prod
+
+      - name: Upload .next folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: next-artifact
+          path: .next/
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Download .next folder
+        uses: actions/download-artifact@v2
+        with:
+          name: next-artifact
+          path: .next/
+
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -42,4 +58,4 @@ jobs:
           scp -P 2233 -r .next ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
           scp -P 2233 package.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
           scp -P 2233 server.js ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
-          ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "cd $${{ secrets.DIRECTORY_NAME }} && npm install --production && npm run server:prod"
+          ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "cd ${{ secrets.DIRECTORY_NAME }} && npm install --production && npm run server:prod"
