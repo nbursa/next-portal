@@ -26,6 +26,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Debug Secret Start
+        run: echo "Start of DEPLOY_KEY is ${DEPLOY_KEY:0:15}"
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+
       - name: Debug Secret Length
         run: echo "Length of DEPLOY_KEY is ${#DEPLOY_KEY}"
         env:
