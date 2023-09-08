@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Decode SSH key
-        run: echo "${{ secrets.DEPLOY_KEY }}" | base64 -d > id_rsa
+        run: echo "${{ secrets.NEW_DEPLOY_KEY }}" > id_rsa
 
       - name: Debug Secret Start
         run: echo "Start of DEPLOY_KEY is ${DEPLOY_KEY:0:15}"
@@ -42,7 +42,7 @@ jobs:
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ./id_rsa
+          ssh-private-key: ${{ secrets.NEW_DEPLOY_KEY }}
 
       - name: Add SSH host key
         run: ssh-keyscan -p 2233 -H ${{ secrets.SERVER_DOMAIN }} >> ~/.ssh/known_hosts
