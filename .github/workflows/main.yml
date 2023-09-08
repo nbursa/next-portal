@@ -31,6 +31,6 @@ jobs:
           scp -P 2233 -r .next ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
           scp -P 2233 package.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
           scp -P 2233 server.js ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
-          ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "cd ${{{ secrets.DIRECTORY_NAME }}} && npm install --production && npm run server:prod"
+          ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "cd $${{ secrets.DIRECTORY_NAME }} && npm install --production && npm run server:prod"
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
