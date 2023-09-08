@@ -26,11 +26,17 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Add SSH host key
+        run: ssh-keyscan -p 2233 -H ${{ secrets.SERVER_DOMAIN }} >> ~/.ssh/known_hosts
+
       - name: Deploy to cPanel
         run: |
           scp -P 2233 -r .next ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
           scp -P 2233 package.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
           scp -P 2233 server.js ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
           ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "cd $${{ secrets.DIRECTORY_NAME }} && npm install --production && npm run server:prod"
-        env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
