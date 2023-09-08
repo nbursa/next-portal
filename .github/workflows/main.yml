@@ -42,7 +42,7 @@ jobs:
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+          ssh-private-key: ./id_rsa
 
       - name: Add SSH host key
         run: ssh-keyscan -p 2233 -H ${{ secrets.SERVER_DOMAIN }} >> ~/.ssh/known_hosts
