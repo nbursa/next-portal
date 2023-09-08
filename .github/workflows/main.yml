@@ -34,6 +34,9 @@ jobs:
       - name: Add SSH host key
         run: ssh-keyscan -p 2233 -H ${{ secrets.SERVER_DOMAIN }} >> ~/.ssh/known_hosts
 
+      - name: List files
+        run: ls -al
+
       - name: Deploy to cPanel
         run: |
           scp -P 2233 -r .next ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
