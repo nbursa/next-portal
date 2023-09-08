@@ -26,6 +26,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Decode SSH key
+        run: echo "${{ secrets.DEPLOY_KEY }}" | base64 -d > id_rsa
+
       - name: Debug Secret Start
         run: echo "Start of DEPLOY_KEY is ${DEPLOY_KEY:0:15}"
         env:
