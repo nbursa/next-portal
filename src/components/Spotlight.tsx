@@ -13,46 +13,38 @@ type SpotlightProps = {
 
 type StyledSpotlightProps = {
   ringColor: string;
+  ringSize: number;
 };
 
-const Spotlight: React.FC<SpotlightProps> = ({ initialX, initialY, boundaryX, boundaryY, ringColor, ringSize,  id }) => {
-  const spotlightRef = useRef<HTMLDivElement>(null);
-  const circleRadius = ringSize;
-  // const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+const StyledSpotlight = styled.div<StyledSpotlightProps>`
+  width: ${props => props.ringSize/2}vw;
+  height: ${props => props.ringSize/2}vw;
+  border-radius: 50%;
+  position: absolute;
+  will-change: transform;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  background-color: ${(props) => props.ringColor};
+  opacity: 0.05;
+  filter: blur(100px);
+`;
 
-  const StyledSpotlight = styled.div<StyledSpotlightProps>`
-    width: 70vw;
-    height: 70vw;
-    border-radius: 50%;
-    position: absolute;
-    will-change: transform;
-    pointer-events: none;
-    left: 0;
-    top: 0;
-    background-color: ${(props) => props.ringColor};
-    opacity: 0.05;
-    filter: blur(100px);
-  `;
+const Spotlight: React.FC<SpotlightProps> = ({ initialX, initialY, boundaryX, boundaryY, ringColor, ringSize, id }) => {
+  const spotlightRef = useRef<HTMLDivElement>(null);
 
   const getRandomDirection = (): number => (Math.random() > 0.5 ? 1 : -1);
+  const getRandomPosition = (min: number, max: number) => Math.random() * (max - min) + min;
 
   useEffect(() => {
+    const circleRadius = ringSize * 1.75;
     let x = initialX - circleRadius;
     let y = initialY - circleRadius;
-    let dx = getRandomDirection() * (Math.random() + 0.5) / 2;
-    let dy = getRandomDirection() * (Math.random() + 0.5) / 2;
+    let dx = getRandomDirection() * Math.random() / 2;
+    let dy = getRandomDirection() * Math.random() / 2;
 
     const moveSpotlight = () => {
       if (spotlightRef.current === null) return;
-
-      // const distanceToMouse = Math.sqrt(
-      //   Math.pow(x - mousePos.x, 2) + Math.pow(y - mousePos.y, 2)
-      // );
-
-      // if (distanceToMouse < 100) {
-      //   dx = -dx;
-      //   dy = -dy;
-      // }
 
       if (x < boundaryX[0] || x > boundaryX[1]) dx = -dx;
       if (y < boundaryY[0] || y > boundaryY[1]) dy = -dy;
@@ -65,13 +57,14 @@ const Spotlight: React.FC<SpotlightProps> = ({ initialX, initialY, boundaryX, bo
     };
 
     moveSpotlight();
-  }, [boundaryX, boundaryY, circleRadius, initialX, initialY]);
+  }, [boundaryX, boundaryY, initialX, initialY, ringSize]);
 
   return (
     <StyledSpotlight
       id={`${id}`}
       ref={spotlightRef}
       ringColor={ringColor}
+      ringSize={ringSize}
     ></StyledSpotlight>
   );
 };
