@@ -1,7 +1,6 @@
 import React from "react";
 import {GA_TRACKING_ID} from "@/utils/analytics";
 import Script from "next/script";
-import Link from "next/link";
 import {NextSeo} from "next-seo";
 
 interface LayoutProps {
@@ -52,13 +51,9 @@ const Layout: React.FC<LayoutProps> = ({
                 </>
             )}
             <main
-                className={`w-full h-full overflow-hidden overflow-y-auto ${classNames}`}>
+                className={`w-full h-full min-h-screen max-h-screen overflow-hidden overflow-y-auto flex flex-col justify-end flex-1 bg-transparent`}>
                 {children}
             </main>
-            {/*<footer className="footer fixed bottom-0 left-0 w-screen text-center flex items-center justify-between">*/}
-            {/*    <Link className="text-thin text-xs" href="https://nenadbursac.com">nenadbursac.com</Link>*/}
-            {/*    <span className="text-thin text-xs">{currentYear}</span>*/}
-            {/*</footer>*/}
         </>
     )
 }

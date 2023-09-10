@@ -20,7 +20,7 @@ const App = ({Component, pageProps}: AppProps) => {
   if (width === 0 || height === 0) return null;
 
   return (
-    <div className="overflow-hidden min-h-screen max-h-screen">
+    <div className="overflow-hidden min-h-screen max-h-screen bg-transparent">
       <Head>
         <link rel="icon" href="/icons/favicon.png"/>
         <meta name="viewport" content="initial-scale=1, width=device-width"/>

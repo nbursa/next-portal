@@ -18,6 +18,8 @@
 # misc
 .DS_Store
 *.pem
+prompt.txt
+prompt2.txt
 
 # debug
 npm-debug.log*
