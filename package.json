@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "server": "NODE_ENV=development node server.js",
-    "server:prod": "NODE_ENV=production node server.js",
+    "server:prod": "NODE_ENV=production pm2 start server.js --name next-portal",
+    "restart:prod": "pm2 restart next-portal",
+    "stop:prod": "pm2 stop next-portal",
     "build:prod": "NODE_ENV=production next build",
     "build:static": "next build && next export"
   },
