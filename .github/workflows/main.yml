@@ -56,6 +56,9 @@ jobs:
         with:
           name: config-files
 
+      - name: Check current directory
+        run: pwd
+
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.5.3
         with:
