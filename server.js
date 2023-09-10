@@ -17,11 +17,6 @@ const port = Number(process.env.PORT) || 5002;
 const app = next({dev});
 const handle = app.getRequestHandler();
 
-console.log('server dev: ', dev)
-console.log('server port: ', port)
-console.log('email username: ', process.env.EMAIL_USERNAME)
-console.log('email HOST: ', process.env.EMAIL_HOST)
-
 app.prepare().then(() => {
     createServer(async (req, res) => {
         const parsedUrl = parse(req.url, true);
@@ -47,10 +42,7 @@ app.prepare().then(() => {
             handle(req, res, parsedUrl);
         }
     }).listen(port, () => {
-        // if (dev) {
         const localIPs = getLocalIP();
-        //     console.log(`Local IP ready on http://${localIPs}:${port}`);
-        // }
         console.log(`Local IP ready on http://${localIPs}:${port}`);
         console.log(`> Server is ready on http://localhost:${port}`);
     });

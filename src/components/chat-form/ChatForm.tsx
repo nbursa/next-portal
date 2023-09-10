@@ -18,6 +18,7 @@ const ChatForm: React.FC<ChatFormProps> = ({classNames, conversation, setConvers
   const fetchPrompt = async () => {
     const res = await fetch('/api/loadPrompt');
     const data = await res.json();
+    console.log(data);
     return data.prompt;
   }
 

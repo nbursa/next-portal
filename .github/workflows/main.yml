@@ -39,7 +39,6 @@ jobs:
           path: |
             package.json
             server.js
-            prompt.txt
 
   deploy:
     needs: build
@@ -84,7 +83,6 @@ jobs:
           scp -v -i deploy_key -P 2233 -r .next ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DEPLOY_PATH }}
           scp -v -i deploy_key -P 2233 package.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DEPLOY_PATH }}
           scp -v -i deploy_key -P 2233 server.js ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DEPLOY_PATH }}
-          scp -v -i deploy_key -P 2233 prompt.txt ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DEPLOY_PATH }}
 
       - name: Reload server on remote
         run: ssh -v -i deploy_key -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "cd ${{ secrets.DEPLOY_PATH }} && (pm2 restart next-portal || pm2 start server.js --name next-portal)"
