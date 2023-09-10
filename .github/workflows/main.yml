@@ -74,6 +74,12 @@ jobs:
       - name: Make directory writable on remote
         run: ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "chmod -R 777 ${{ secrets.DEPLOY_PATH }}"
 
+      - name: Print Current Working Directory
+        run: pwd
+
+      - name: List Files in Current Directory
+        run: ls -al
+
       - name: Deploy to cPanel
         run: |
           scp -v -i deploy_key -P 2233 -r .next ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DEPLOY_PATH }}
