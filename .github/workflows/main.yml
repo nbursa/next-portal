@@ -69,7 +69,7 @@ jobs:
           ssh-add deploy_key
 
       - name: Debug directory permissions on remote
-        run: ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "ls -al ${{ secrets.DIRECTORY_NAME }}"
+        run: ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "ls -al ${{ secrets.DEPLOY_PATH }}"
 
       - name: Make directory writable on remote
         run: ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "chmod -R 777 ${{ secrets.DEPLOY_PATH }}"
