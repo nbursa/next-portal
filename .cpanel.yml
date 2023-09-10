@@ -1,8 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=$(cygpath -wa .)
-    - export HOME=$DEPLOYPATH
-    - /opt/cpanel/ea-nodejs10/bin/npm install
-    - /opt/cpanel/ea-nodejs10/bin/npm run build
-    - echo "Deployment completed"
+    - export DEPLOYPATH=${DEPLOY_PATH}
+    - /bin/cp -R .next $DEPLOYPATH
+    - /bin/cp package.json $DEPLOYPATH
+    - /bin/cp server.js $DEPLOYPATH
