@@ -32,6 +32,14 @@ jobs:
           name: next-artifact
           path: .next/
 
+      - name: Upload package.json and server.js
+        uses: actions/upload-artifact@v2
+        with:
+          name: config-files
+          path: |
+            package.json
+            server.js
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -41,6 +49,11 @@ jobs:
         with:
           name: next-artifact
           path: .next/
+
+      - name: Download package.json and server.js
+        uses: actions/download-artifact@v2
+        with:
+          name: config-files
 
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.5.3
