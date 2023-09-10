@@ -59,6 +59,9 @@ jobs:
       - name: Check current directory
         run: pwd
 
+      - name: List Directory Contents
+        run: ls -al /home/runner/work/next-portal/next-portal
+
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.5.3
         with:
