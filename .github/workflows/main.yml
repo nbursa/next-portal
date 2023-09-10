@@ -68,6 +68,9 @@ jobs:
           ssh-agent -s
           ssh-add deploy_key
 
+      - name: Make directory writable on remote
+        run: ssh -i deploy_key -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "chmod -R 777 ${ { secrets.DIRECTORY_NAME }}"
+
       - name: Deploy to cPanel
         run: |
           scp -i deploy_key -P 2233 -r .next ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
