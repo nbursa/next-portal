@@ -4,16 +4,17 @@ import apiConfig from '@/utils/gpt-config';
 import {ChatFormProps} from "@/types";
 import Image from "next/image";
 
-const configuration = new Configuration({
-    apiKey: apiConfig.apiKey,
-  });
-const openai = new OpenAIApi(configuration);
 
 const ChatForm: React.FC<ChatFormProps> = ({classNames, conversation, setConversation}) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isFocused, setFocus] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const configuration = new Configuration({
+      apiKey: apiConfig.apiKey,
+    });
+  const openai = new OpenAIApi(configuration);
 
   // const fetchPrompt = async () => {
   //   const res = await fetch('/api/loadPrompt');
