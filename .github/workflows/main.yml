@@ -94,8 +94,8 @@ jobs:
       - name: List Files in Current Directory
         run: ls -al
 
-      - name: Install PM2 on remote server
-        run: ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "npm install pm2 -g"
+#      - name: Install PM2 on remote server
+#        run: ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "npm install pm2 -g"
 
       - name: Deploy to cPanel
         run: |
