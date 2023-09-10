@@ -1,5 +1,6 @@
 import React, {useRef, useState} from 'react';
 import Layout from '@/layouts';
+import Image from 'next/image'
 
 type FormData = {
   name: string;
@@ -67,52 +68,6 @@ const ContactPage: React.FC = () => {
     setIsValid(isValidForm);
   };
 
-
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  //   if (textareaRef.current) {
-  //     if (textareaRef.current.scrollHeight < 200) {
-  //       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-  //     }
-  //   }
-  //
-  //   const {name, value} = e.target;
-  //   setFormData((prevFormData) => ({...prevFormData, [name]: value}));
-  //
-  //   let currentErrors = {...errors};
-  //
-  //   if (name === 'name') {
-  //     if (value.trim().length < 2) {
-  //       currentErrors.name = 'Name must be at least 2 characters.';
-  //     } else {
-  //       delete currentErrors.name;
-  //     }
-  //   }
-  //
-  //   if (name === 'email') {
-  //     if (!validateEmail(value)) {
-  //       currentErrors.email = 'Invalid email format.';
-  //     } else {
-  //       delete currentErrors.email;
-  //     }
-  //   }
-  //
-  //   if (name === 'message') {
-  //     if (!value.trim()) {
-  //       currentErrors.message = 'Message cannot be empty.';
-  //     } else {
-  //       delete currentErrors.message;
-  //     }
-  //   }
-  //
-  //   setErrors(currentErrors);
-  //
-  //   if (formData.name.trim().length >= 2 && validateEmail(formData.email) && formData.message.trim()) {
-  //     setIsValid(true);
-  //   } else {
-  //     setIsValid(false);
-  //   }
-  // };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -164,8 +119,14 @@ const ContactPage: React.FC = () => {
     <Layout title="Contact">
       <div className="min-h-screen flex items-center justify-center">
         <form onSubmit={handleSubmit} className="w-full max-w-md p-6">
-          <h2 className="text-2xl font-bold text-center">Contact</h2>
-          <p className="text-xs text-white text-center mb-8">Lets talk!</p>
+
+          <div className="flex items-center justify-between mb-8">
+            <div className="">
+              <h2 className="text-2xl font-bold">Contact</h2>
+              <p className="text-xs text-white text-center">Lets talk!</p>
+            </div>
+            <a href="https://www.linkedin.com/in/nenadbursac" target="_blank" className=""><Image src='/linkedin.svg' alt='Linkedin logo' width={40} height={40} /></a>
+          </div>
           <div className="mb-8">
             <input
               type="text"

@@ -47,6 +47,9 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
+      - name: Debug SSH
+        run: ssh-add -l
+
       - name: Add SSH host key
         run: ssh-keyscan -p 2233 -H ${{ secrets.SERVER_DOMAIN }} >> ~/.ssh/known_hosts
 
@@ -60,7 +63,14 @@ jobs:
 
       - name: Deploy to cPanel
         run: |
-          scp -P 2233 -r .next ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
-          scp -P 2233 package.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
-          scp -P 2233 server.js ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
-          ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "cd ${{ secrets.DIRECTORY_NAME }} && npm install --production && npm run server:prod"
+          scp -i ${{ secrets.DEPLOY_KEY_PATH }} -P 2233 -r .next ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
+          scp -i ${{ secrets.DEPLOY_KEY_PATH }} -P 2233 package.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
+          scp -i ${{ secrets.DEPLOY_KEY_PATH }} -P 2233 server.js ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
+          ssh -i ${{ secrets.DEPLOY_KEY_PATH }} -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "cd ${{ secrets.DIRECTORY_NAME }} && npm install --production && npm run server:prod"
+
+#      - name: Deploy to cPanel
+#        run: |
+#          scp -P 2233 -r .next ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
+#          scp -P 2233 package.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
+#          scp -P 2233 server.js ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DIRECTORY_NAME }}
+#          ssh -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "cd ${{ secrets.DIRECTORY_NAME }} && npm install --production && npm run server:prod"
