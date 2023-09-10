@@ -37,9 +37,9 @@ jobs:
         with:
           name: config-files
           path: |
-            .env.production
             package.json
             server.js
+#            .env.production
 
   deploy:
     needs: build
@@ -97,10 +97,10 @@ jobs:
       - name: Deploy to cPanel
         run: |
           scp -v -i deploy_key -P 2233 -r .next ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DEPLOY_PATH }}
-          scp -v -i deploy_key -P 2233 .env.production ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DEPLOY_PATH }}
           scp -v -i deploy_key -P 2233 package.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DEPLOY_PATH }}
           scp -v -i deploy_key -P 2233 server.js ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DEPLOY_PATH }}
           ssh -v -i deploy_key -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "cd ${{ secrets.DEPLOY_PATH }} && npm install --production && npm run server:prod"
 
+#          scp -v -i deploy_key -P 2233 .env.production ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }}:${{ secrets.DEPLOY_PATH }}
 #          ssh -v -i deploy_key -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash"
 #          ssh -v -i deploy_key -p 2233 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "source ~/.nvm/nvm.sh && nvm install 16 && nvm use 16"
