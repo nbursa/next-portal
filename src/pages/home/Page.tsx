@@ -16,32 +16,12 @@ const HomePage = () => {
   const [conversation, setConversation] = useState<ConversationItem[]>([{
     user: "",
     ai: "Hey there, 🙋‍ welcome onboard! I'm Nenad Bursać, a Frontend Developer 🎨 crafting UIs 💻 from Belgrade, Serbia 🇷🇸. Feel free to chat with my AI assistant 🤖 below for some tech trivia 🧠, jokes 😄, or to learn more about what I do 👨‍💻!"
-    // ai: "Hey there 👋, welcome onboard! I'm Nenad Bursać, a seasoned Frontend Developer crafting 🛠 UIs from the heart of Belgrade, Serbia. Feel free to chat with my AI assistant below for some tech trivia, jokes, or to learn more about what I do!"
-    // ai: "Hello there! I'm Nenad Bursać, Frontend Developer from Belgrade, Serbia 👋. Use input below to chat with ai assistant for fun."
   }]);
   const containerRef = useRef<HTMLDivElement>(null);
   const typingTextRef = useRef<HTMLDivElement>(null) as MutableRefObject<HTMLDivElement>;
-  const [typingTextHeight, setTypingTextHeight] = useState<number>(0);
   const [autoScroll, setAutoScroll] = useState(true);
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const container = containerRef.current;
-
-    if (container) {
-      setTypingTextHeight(container.offsetHeight);
-    }
-
-    const handleResize = () => {
-      if (container) {
-        setTypingTextHeight(container.offsetHeight);
-      }
-    };
-
-    window.addEventListener("resize", handleResize, {passive: true});
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -88,10 +68,10 @@ const HomePage = () => {
   };
 
   return (
-    <Layout title="Homepage" classNames="flex flex-col items-center justify-center">
+    <Layout title="Homepage">
       <div
         ref={containerRef}
-        className="pt-[20vh] min-h-full max-h-[65vh] sm:max-h-[75vh] w-full  sm:px-[20%] mx-auto overflow-hidden overflow-y-auto scroll-smooth mb-8"
+        className="pt-[20vh] min-h-full max-h-[80vh] sm:max-h-[75vh] w-full bg-transparent flex-0 sm:px-[20%] mx-auto overflow-hidden overflow-y-auto scroll-smooth mb-8"
       >
         <div>
           {conversation.map(({user = "", ai}, index) => (
@@ -112,7 +92,7 @@ const HomePage = () => {
       <ChatForm
         setConversation={setConversation}
         conversation={conversation}
-        classNames="w-full sm:max-w-[75vw] md:max-w-[60vw] lg:max-w-3xl h-auto mx-auto px-4 sm:px-12 mb-12"
+        classNames="w-full sm:max-w-[75vw] md:max-w-[60vw] lg:max-w-3xl h-full mx-auto px-4 sm:px-12 mb-12"
       />
     </Layout>
   );
