@@ -1,10 +1,9 @@
-import type {AppProps} from 'next/app'
-import {DefaultSeo} from 'next-seo'
-import Head from "next/head";
-import Navigation from "@/components/navigation";
-import Spotlight from "@/components/Spotlight";
-import {useEffect, useState} from "react";
-import '@/styles/globals.css'
+import type { AppProps } from 'next/app';
+import { DefaultSeo } from 'next-seo';
+import Head from 'next/head';
+import Navigation from '@/components/navigation';
+import { useEffect, useState } from 'react';
+import '@/styles/globals.css';
 
 const App = ({Component, pageProps}: AppProps) => {
   const [width, setWidth] = useState<number>(0);
@@ -39,12 +38,12 @@ const App = ({Component, pageProps}: AppProps) => {
       />
       <Navigation/>
       <Component {...pageProps} />
-      <>
-        <Spotlight ringSize={ringSize} id={1} initialX={0} initialY={0} boundaryX={[0, width / 2]} boundaryY={[0, height / 2]} ringColor="red" />
-        <Spotlight ringSize={ringSize} id={2} initialX={width} initialY={0} boundaryX={[width / 2, width]} boundaryY={[0, height / 2]} ringColor="yellow" />
-        <Spotlight ringSize={ringSize} id={3} initialX={0} initialY={height} boundaryX={[0, width / 2]} boundaryY={[height / 2, height]} ringColor="green" />
-        <Spotlight ringSize={ringSize} id={4} initialX={width} initialY={height} boundaryX={[width / 2, width]} boundaryY={[height / 2, height]} ringColor="blue" />
-      </>
+      {/*<>*/}
+      {/*  <Spotlight ringSize={ringSize} id={1} initialX={0} initialY={0} boundaryX={[0, width / 2]} boundaryY={[0, height / 2]} ringColor="red" />*/}
+      {/*  <Spotlight ringSize={ringSize} id={2} initialX={width} initialY={0} boundaryX={[width / 2, width]} boundaryY={[0, height / 2]} ringColor="yellow" />*/}
+      {/*  <Spotlight ringSize={ringSize} id={3} initialX={0} initialY={height} boundaryX={[0, width / 2]} boundaryY={[height / 2, height]} ringColor="green" />*/}
+      {/*  <Spotlight ringSize={ringSize} id={4} initialX={width} initialY={height} boundaryX={[width / 2, width]} boundaryY={[height / 2, height]} ringColor="blue" />*/}
+      {/*</>*/}
     </div>
   )
 }
