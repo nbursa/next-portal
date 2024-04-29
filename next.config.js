@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    basePath: '/',
+    basePath: '',
     assetPrefix: '/',
     reactStrictMode: true,
     // webpack(config) {
