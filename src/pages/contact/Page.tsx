@@ -1,6 +1,6 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import Layout from '@/layouts';
-import Image from 'next/image'
+import Image from 'next/image';
 
 type FormData = {
   name: string;
@@ -125,7 +125,10 @@ const ContactPage: React.FC = () => {
               <h2 className="text-2xl font-bold">Contact</h2>
               <p className="text-xs text-white text-center">Lets talk!</p>
             </div>
-            <a href="https://www.linkedin.com/in/nenadbursac" target="_blank" className=""><Image src='/linkedin.svg' alt='Linkedin logo' width={40} height={40} /></a>
+            <div className="flex items-center gap-8">
+              <a href="https://www.github.com/nbursa" target="_blank" className=""><Image src='/github-mark-white.svg' alt='Linkedin logo' width={34} height={34} /></a>
+              <a href="https://www.linkedin.com/in/nenadbursac" target="_blank" className=""><Image src='/linkedin.svg' alt='Linkedin logo' width={40} height={40} /></a>
+            </div>
           </div>
           <div className="mb-8">
             <input
