@@ -12,7 +12,7 @@
     "restart:prod": "pm2 restart next-portal",
     "stop:prod": "pm2 stop next-portal",
     "build:prod": "NODE_ENV=production next build",
-    "build:static": "next build && next export",
+    "build:static": "next build && next start",
     "deploy": "gh-pages -d out"
   },
   "dependencies": {
