@@ -1,3 +1,3 @@
-import NavButton from "@/components/common/NavButton";
+import NavButton from '../../components/common/NavButton';
 
 export {NavButton};

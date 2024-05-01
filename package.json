@@ -36,7 +36,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@types/nodemailer": "^6.4.9",
+    "@types/nodemailer": "^6.4.14",
     "autoprefixer": "^10.4.14",
     "gh-pages": "^6.1.1",
     "postcss": "^8.4.23",

@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import { DefaultSeo } from 'next-seo';
 import Head from 'next/head';
-import Navigation from '@/components/navigation';
+import Navigation from '../components/navigation';
 import { useEffect, useState } from 'react';
 import '@/styles/globals.css';
 

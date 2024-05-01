@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import Layout from '@/layouts';
+import Layout from '../../layouts';
 import Image from 'next/image';
 
 type FormData = {

@@ -1,11 +1,11 @@
-import Layout from "@/layouts";
-import ChatForm from "@/components/chat-form";
+import Layout from '../../layouts';
+import ChatForm from '@/components/chat-form';
 import React, {
   MutableRefObject,
   useEffect,
   useRef,
-  useState
-} from "react";
+  useState,
+} from 'react';
 
 export interface ConversationItem {
   user?: string;

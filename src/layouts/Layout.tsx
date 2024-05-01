@@ -1,7 +1,7 @@
-import React from "react";
-import {GA_TRACKING_ID} from "@/utils/analytics";
-import Script from "next/script";
-import {NextSeo} from "next-seo";
+import React from 'react';
+import { GA_TRACKING_ID } from '../utils/analytics';
+import Script from 'next/script';
+import { NextSeo } from 'next-seo';
 
 interface LayoutProps {
     children: React.ReactNode;

@@ -1,6 +1,8 @@
-import {CreateChatCompletionResponseChoicesInner} from "openai";
-import {Dispatch, SetStateAction} from "react";
-import {ConversationItem} from "@/pages/home/Page";
+import {
+  CreateChatCompletionResponseChoicesInner,
+} from 'openai';
+import { Dispatch, SetStateAction } from 'react';
+import { ConversationItem } from '../pages/home/Page';
 
 export interface ChatCompletionResponseChoices extends CreateChatCompletionResponseChoicesInner {
   text: string;

@@ -1,7 +1,7 @@
 import {
-  NavLink
-} from "@/components/navigation/components/NavLinks";
-import Image from "next/image";
+  NavLink,
+} from '../../components/navigation/components/NavLinks';
+import Image from 'next/image';
 
 export const links: NavLink[] = [
   {

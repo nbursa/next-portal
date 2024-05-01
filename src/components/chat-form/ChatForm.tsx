@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Configuration, OpenAIApi} from 'openai';
-import apiConfig from '@/utils/gpt-config';
-import {ChatFormProps} from "@/types";
-import Image from "next/image";
+import React, { useEffect, useRef, useState } from 'react';
+import { Configuration, OpenAIApi } from 'openai';
+import apiConfig from '../../utils/gpt-config';
+import { ChatFormProps } from '../../types';
+import Image from 'next/image';
 
 
 const ChatForm: React.FC<ChatFormProps> = ({classNames, conversation, setConversation}) => {
