@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - main  # Trigger on push to main branch
 
 jobs:
   build-and-deploy:
@@ -16,20 +16,19 @@ jobs:
         with:
           node-version: '14'
 
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install Dependencies
         run: npm install
 
       - name: Build and Export
         run: npm run build && npm run export
-        env:
-          NEXT_PUBLIC_CHATGPT_API_KEY: ${{ secrets.CHATGPT_API_KEY }}
-          NEXT_PUBLIC_CHATGPT_API_URL: ${{ secrets.CHATGPT_API_URL }}
-          PORT: ${{ secrets.PORT }}
-          NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
-          EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
-          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-          EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
-          EMAIL: ${{ secrets.EMAIL }}
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
