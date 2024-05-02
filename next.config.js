@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'export',
+    // output: 'export',
     reactStrictMode: true,
-    basePath: '/next-portal',
-    assetPrefix: '/next-portal/',
+    basePath: '',
+    assetPrefix: '/',
     env: {
         NEXT_PUBLIC_CHATGPT_API_KEY: process.env.NEXT_PUBLIC_CHATGPT_API_KEY,
         NEXT_PUBLIC_CHATGPT_API_URL: process.env.NEXT_PUBLIC_CHATGPT_API_URL,
