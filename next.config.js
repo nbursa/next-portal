@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // output: 'export',
+    output: 'export',
+    reactStrictMode: true,
     basePath: '/next-portal/',
     assetPrefix: '/next-portal/',
     env: {
@@ -13,7 +14,6 @@ const nextConfig = {
         EMAIL_HOST: process.env.EMAIL_HOST,
         EMAIL: process.env.EMAIL
     },
-    reactStrictMode: true,
     images: {
         domains: [],
         unoptimized: true
