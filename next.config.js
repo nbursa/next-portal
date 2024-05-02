@@ -2,7 +2,7 @@
 const nextConfig = {
     output: 'export',
     reactStrictMode: true,
-    basePath: '/next-portal/',
+    basePath: '/next-portal',
     assetPrefix: '/next-portal/',
     env: {
         NEXT_PUBLIC_CHATGPT_API_KEY: process.env.NEXT_PUBLIC_CHATGPT_API_KEY,
