@@ -1,3 +1,4 @@
+declare module 'nodemailer';
 declare module 'sqlite';
 
 declare global {
